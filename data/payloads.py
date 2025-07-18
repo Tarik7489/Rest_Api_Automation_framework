@@ -42,3 +42,10 @@ def update_post_payload():
             }
         ]
     }
+
+def login_payload():
+    return {
+
+            "email": "john@mail.com",
+            "password": "changeme"
+        }
