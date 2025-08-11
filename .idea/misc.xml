@@ -3,5 +3,9 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.13 (rest_api_framework)" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (Rest_Api_Automation_framework)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (rest_api_framework)" project-jdk-type="Python SDK" />
+>>>>>>> 099fbd400b08e47ded5b43839341d9f33b056d38
 </project>
