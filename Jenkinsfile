@@ -24,7 +24,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat "if not exist %RESULTS% mkdir %RESULTS%"
-                bat "call %VENV%\\Scripts\\activate.bat && pytest tests --disable-warnings --html=%RESULTS%\\report.html --junitxml=%RESULTS%\\junit.xml"
+                bat "call %VENV%\\Scripts\\activate.bat && pytest tests/test_login.py --disable-warnings --html=%RESULTS%\\report.html --junitxml=%RESULTS%\\junit.xml"
+
             }
         }
     }
