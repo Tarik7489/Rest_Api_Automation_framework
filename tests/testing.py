@@ -11,3 +11,6 @@ def create_user():
 
 def delete_user():
     pass
+
+def update_user():
+    pass
