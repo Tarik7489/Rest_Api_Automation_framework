@@ -14,3 +14,6 @@ def delete_user():
 
 def update_user():
     pass
+
+def get_user():
+    pass
