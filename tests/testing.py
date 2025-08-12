@@ -17,3 +17,6 @@ def update_user():
 
 def get_user():
     pass
+
+def get_all_users():
+    pass

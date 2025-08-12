@@ -55,22 +55,21 @@ pipeline {
 
         stage('Setup Python') {
             steps {
-                bat "python -m venv %VENV%"
-                bat "call %VENV%\\Scripts\\activate.bat && python -m pip install --upgrade pip"
-                bat "call %VENV%\\Scripts\\activate.bat && pip install -r requirements.txt"
-                bat "call %VENV%\\Scripts\\activate.bat && pip install pytest-html"
+                bat """
+                    python -m venv %VENV%
+                    call %VENV%\\Scripts\\activate.bat
+                    python -m pip install --upgrade pip
+                    pip install -r requirements.txt
+                """
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat "if not exist %RESULTS% mkdir %RESULTS%"
-                // Added --self-contained-html for styled report
                 bat """
-                    call %VENV%\\Scripts\\activate.bat &&
-                    pytest tests/test_login.py --disable-warnings ^
-                          --html=%RESULTS%\\report.html --self-contained-html ^
-                          --junitxml=%RESULTS%\\junit.xml
+                    if not exist %RESULTS% mkdir %RESULTS%
+                    call %VENV%\\Scripts\\activate.bat
+                    pytest tests/test_login.py --disable-warnings --html=%RESULTS%\\report.html --junitxml=%RESULTS%\\junit.xml
                 """
             }
         }
