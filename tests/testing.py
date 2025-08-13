@@ -20,3 +20,6 @@ def get_user():
 
 def get_all_users():
     pass
+
+def create_post():
+    pass

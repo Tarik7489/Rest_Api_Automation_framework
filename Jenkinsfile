@@ -37,7 +37,6 @@
 //         }
 //     }
 // }
-
 pipeline {
     agent any
 
@@ -55,22 +54,29 @@ pipeline {
 
         stage('Setup Python') {
             steps {
-                bat """
-                    python -m venv %VENV%
-                    call %VENV%\\Scripts\\activate.bat
-                    python -m pip install --upgrade pip
-                    pip install -r requirements.txt
-                """
+                bat "python -m venv %VENV%"
+                bat "call %VENV%\\Scripts\\activate.bat && python -m pip install --upgrade pip"
+                bat "call %VENV%\\Scripts\\activate.bat && pip install -r requirements.txt"
+                bat "call %VENV%\\Scripts\\activate.bat && pip install pytest-html"
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat """
-                    if not exist %RESULTS% mkdir %RESULTS%
-                    call %VENV%\\Scripts\\activate.bat
-                    pytest tests/test_login.py --disable-warnings --html=%RESULTS%\\report.html --junitxml=%RESULTS%\\junit.xml
-                """
+                bat "if not exist %RESULTS% mkdir %RESULTS%"
+                bat "call %VENV%\\Scripts\\activate.bat && pytest tests/test_login.py --disable-warnings --html=%RESULTS%\\report.html --self-contained-html --junitxml=%RESULTS%\\junit.xml"
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    keepAll: true,
+                    reportDir: "${RESULTS}",
+                    reportFiles: 'report.html',
+                    reportName: 'Test Report'
+                ])
             }
         }
     }
@@ -85,7 +91,8 @@ pipeline {
             emailext(
                 subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """<p>Build succeeded for <b>${env.JOB_NAME}</b> #${env.BUILD_NUMBER}.</p>
-                         <p><a href='${env.BUILD_URL}'>Click here</a> to view build details.</p>""",
+                         <p><a href='${env.BUILD_URL}'>Click here</a> to view build details.</p>
+                         <p><a href='${env.BUILD_URL}HTML_20Report/'>View Detailed HTML Report</a></p>""",
                 mimeType: 'text/html',
                 to: 'tarikaziz7489@gmail.com',
                 attachmentsPattern: 'results/report.html'
@@ -96,7 +103,8 @@ pipeline {
             emailext(
                 subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """<p>Build failed for <b>${env.JOB_NAME}</b> #${env.BUILD_NUMBER}.</p>
-                         <p><a href='${env.BUILD_URL}'>Click here</a> to view build logs and reports.</p>""",
+                         <p><a href='${env.BUILD_URL}'>Click here</a> to view build logs and reports.</p>
+                         <p><a href='${env.BUILD_URL}HTML_20Report/'>View Detailed HTML Report</a></p>""",
                 mimeType: 'text/html',
                 to: 'tarikaziz7489@gmail.com',
                 attachmentsPattern: 'results/report.html',
@@ -105,3 +113,6 @@ pipeline {
         }
     }
 }
+
+
+
