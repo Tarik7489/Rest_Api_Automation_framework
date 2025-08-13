@@ -20,7 +20,6 @@ def test_login_get_profile_info(baseUrl):
     assert profile["id"] == 1, "User ID should be 1"
     assert profile["email"] == "john@mail.com", "Email doesn't match"
     assert profile["password"] == "changeme", "Password doesn't match"
-    # assert profile["name"] == "Jhon", "Name doesn't match"
     assert profile["role"] == "customer", "Role should be customer"
-    # assert profile["avatar"].startswith("https://"), "Avatar URL should be valid"
+
 

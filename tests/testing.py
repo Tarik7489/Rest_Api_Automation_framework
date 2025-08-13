@@ -23,3 +23,6 @@ def get_all_users():
 
 def create_post():
     pass
+
+def get_all_posts():
+    pass
